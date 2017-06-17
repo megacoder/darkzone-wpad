@@ -1,0 +1,28 @@
+// Proxy setup for the DARKZONE.UN
+
+var	direct     = "DIRECT";
+var	proxy      = "PROXY proxy.darkzone.un:3128; DIRECT";
+// var	wb_prox    = "PROXY 75.104.192.60:80; DIRECT;";
+var	darkzone   = /\.darkzone\.un$/;
+var	localhost  = /^127\.0\.0\.1/;
+var	localnet   = /^192\.168\./;
+var	localdom   = /\.localdom$/;
+var	foxmarks   = /^sync\.foxmarks\.com$/;
+var	rfcuorg    = /^www\.redcfu.*org$/;
+
+function FindProxyForURL(url, host)
+{
+    // Canonical is lowercase
+    url = url.toLowerCase();
+    host = host.toLowerCase();
+    // Direct access these exceptions
+    if( isPlainHostName( host ) ) return direct;
+    if( localhost.test(  host ) ) return direct;
+    if( localnet.test(   host ) ) return direct;
+    if( localdom.test(   host ) ) return direct;
+    if( darkzone.test(   host ) ) return direct;
+    if( foxmarks.test(   host ) ) return direct;
+    if( rfcuorg.test(    host ) ) return direct;
+    // Proxy everything else
+    return proxy;
+};
